@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  oracle:
+    image: oracleinanutshell/oracle-xe-11g:latest
+    ports:
+      - 1521:1521
+      - 5500:5500
+
+  hydra:
+    container_name: hydra
+    image: ghcr.io/hydradatabase/hydra:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Welcome123
+    volumes:
+      - ./volumes/db:/var/lib/postgresql/data
+      - ./files/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'

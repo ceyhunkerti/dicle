@@ -1,0 +1,37 @@
+version: 1
+default_environment: dev
+project_id: 0fd0f13d-f959-4642-971f-69f56982020b
+plugins:
+  extractors:
+    - name: tap-oracle
+      variant: s7clarke10
+      pip_url: git+https://github.com/s7clarke10/pipelinewise-tap-oracle.git
+      config:
+        sid: xe
+        host: localhost
+        port: 1521
+        user: hr
+        password: hr
+        filter_schemas: HR
+        use_singer_decimal: true
+      metadata:
+        "*":
+          replication-method: FULL_TABLE
+  loaders:
+    - name: target-postgres
+      variant: meltanolabs
+      pip_url: meltanolabs-target-postgres~=0.0.7
+      config:
+        host: localhost
+        port: 5432
+        user: postgres
+        password: Welcome123
+        database: postgres
+        target_schema: public
+        default_target_schema: public
+        add_record_metadata: true
+
+environments:
+  - name: dev
+  - name: staging
+  - name: prod

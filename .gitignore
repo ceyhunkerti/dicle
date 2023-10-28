@@ -1,0 +1,4 @@
+.venv
+.vscode
+db/volumes
+ext/lib
